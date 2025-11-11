@@ -5,8 +5,8 @@ import EventImage03 from '../assets/events-images/event-static-image-03.jpg';
 const EventComponent = () => {
      return (
           <div className="relative w-full font-inter-regular container mx-auto mt-5">
-               <h1 className="text-lg font-inter-medium uppercase">Latest Events</h1>
-               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-15 my-5 ">
+               <h1 className="text-lg font-inter-medium pl-3 md:pl-0 uppercase">Latest Events</h1>
+               <div className="grid grid-cols-1 p-3 md:p-0 md:grid-cols-2 lg:grid-cols-3 gap-15 my-5 ">
                     <div className="card">
                          <img src={EventImage01} className='mb-3 rounded-lg opacity-90' />
                          <h5 className="card-title text-xl font-inter-medium">Festival Audio Masterclass</h5>
