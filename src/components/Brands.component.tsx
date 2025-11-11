@@ -46,28 +46,28 @@ const BrandsComponent = () => {
      return (
           <>
                <div className="relative w-full py-10 font-inter-regular container mx-auto mt-10">
-                    <h1 className="text-lg font-inter-medium uppercase">OUR TRUSTED BRANDS</h1>
+                    <h1 className="text-lg font-inter-medium uppercase text-center lg:text-left">OUR TRUSTED BRANDS</h1>
                     <Slider {...settings} className='w-full mt-5'>
-                         <div className="flex items-center justify-center px-4">
-                              <img src={MackieLogo} alt="Mackie" className="h-20" />
+                         <div className="flex items-center justify-center px-2">
+                              <img src={MackieLogo} alt="Mackie" className="h-16 lg:h-20 object-contain filter grayscale hover:grayscale-0 transition-all duration-300" />
                          </div>
-                         <div className="flex items-center justify-center px-4">
-                              <img src={MAudioLogo} alt="M-Audio" className="h-20" />
+                         <div className="flex items-center justify-center px-2">
+                              <img src={MAudioLogo} alt="M-Audio" className="h-16 lg:h-20 object-contain filter grayscale hover:grayscale-0 transition-all duration-300" />
                          </div>
-                         <div className="flex items-center justify-center px-4">
-                              <img src={OneODioLogo} alt="OneOdio" className="h-20" />
+                         <div className="flex items-center justify-center px-2">
+                              <img src={OneODioLogo} alt="OneOdio" className="h-16 lg:h-20 object-contain filter grayscale hover:grayscale-0 transition-all duration-300" />
                          </div>
-                         <div className="flex items-center justify-center px-4">
-                              <img src={RCFLogo} alt="RCF" className="h-20" />
+                         <div className="flex items-center justify-center px-2">
+                              <img src={RCFLogo} alt="RCF" className="h-16 lg:h-20 object-contain filter grayscale hover:grayscale-0 transition-all duration-300" />
                          </div>
-                         <div className="flex items-center justify-center px-4">
-                              <img src={ShureLogo} alt="Shure" className="h-20" />
+                         <div className="flex items-center justify-center px-2">
+                              <img src={ShureLogo} alt="Shure" className="h-16 lg:h-20 object-contain filter grayscale hover:grayscale-0 transition-all duration-300" />
                          </div>
-                         <div className="flex items-center justify-center px-4">
-                              <img src={SoundkingLogo} alt="Soundking" className="h-20" />
+                         <div className="flex items-center justify-center px-2">
+                              <img src={SoundkingLogo} alt="Soundking" className="h-16 lg:h-20 object-contain filter grayscale hover:grayscale-0 transition-all duration-300" />
                          </div>
-                         <div className="flex items-center justify-center px-4">
-                              <img src={SamsoneLogo} alt="Soundking" className="h-20" />
+                         <div className="flex items-center justify-center px-2">
+                              <img src={SamsoneLogo} alt="Samson" className="h-16 lg:h-20 object-contain filter grayscale hover:grayscale-0 transition-all duration-300" />
                          </div>
                     </Slider>
                </div>
