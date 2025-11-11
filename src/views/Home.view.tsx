@@ -8,6 +8,7 @@ import SpecialDealsCarouselComponent from "../components/SpecialDealsCarousel.co
 import ProductListComponent from "../components/ProductsList.component";
 import ServicesComponent from "../components/Services.component";
 import EventComponent from "../components/Events.component";
+import CustomerFeedbackCardComponent from "../components/CustomerFeedbackCard.component";
 
 const HomeView = () => {
 
@@ -30,6 +31,7 @@ const HomeView = () => {
                <SpecialDealsCarouselComponent />
                <ProductListComponent title="Latest Products" />
                <ServicesComponent />
+               <CustomerFeedbackCardComponent />
                <EventComponent />
           </>
      );
