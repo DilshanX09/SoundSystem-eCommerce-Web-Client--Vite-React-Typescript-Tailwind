@@ -24,7 +24,7 @@ const HomeView = () => {
      if (isLoading) return <LoadingView />;
 
      return (
-          <>
+          <div className="overflow-hidden">
                <HeaderComponent />
                <CarouselComponent />
                <SubHeroSectionComponent />
@@ -37,7 +37,7 @@ const HomeView = () => {
                <EventComponent />
                <BrandsComponent />
                <NewsLattersComponent />
-          </>
+          </div>
      );
 
 }
