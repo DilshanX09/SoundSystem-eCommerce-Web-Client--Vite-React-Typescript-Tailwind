@@ -6,6 +6,8 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from "zod";
 import { Controller, useForm } from "react-hook-form";
 import { IoMdInformationCircleOutline } from "react-icons/io";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const RegisterScreen = ({ changeView }: { changeView: (view: 'login' | 'register') => void }) => {
 
@@ -15,6 +17,9 @@ const RegisterScreen = ({ changeView }: { changeView: (view: 'login' | 'register
     const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
     const [togglePasswordVisible, setTogglePasswordVisible] = useState<boolean>(false);
+    const [serverResponse, setServerResponse] = useState<string>("");
+    const [isError, setIsError] = useState<boolean>(false);
+    const navigator = useNavigate();
 
     // Define validate schema 
     const schema = z.object({
@@ -58,8 +63,28 @@ const RegisterScreen = ({ changeView }: { changeView: (view: 'login' | 'register
     });
 
     const handleRegister = async (data: z.infer<typeof schema>) => {
-        console.log('register data', data);
-        console.log('api calling......');
+
+        const userInformationObject = {
+            firstName: data.firstName,
+            lastName: data.lastName,
+            email: data.email,
+            password: data.password
+        }
+
+        await axios.post('http://localhost:5000/sound-crafters/api/v1/users/register', userInformationObject)
+            .then(response => {
+                if (response.data.status) {
+                    setServerResponse(response.data.message);
+                    setIsError(false);
+                    if (response.data.vcode) navigator('/users/account-verification', { state: { email: data.email } });
+                    return;
+                } else {
+                    setServerResponse(response.data.message);
+                    setIsError(true);
+                    return;
+                }
+            })
+            .catch(error => console.error(error));
     };
 
     const handleFormSubmit = (e: React.FormEvent) => {
@@ -103,6 +128,7 @@ const RegisterScreen = ({ changeView }: { changeView: (view: 'login' | 'register
                     </p>
 
                     <div className="flex flex-col">
+                        {serverResponse && <p className={`text-[14px] font-inter-regular mb-3 ${isError ? 'text-red-500' : 'text-green-500'}`}>{serverResponse}</p>}
                         {errors.firstName && <p className="text-red-500 text-[13px] font-inter-regular inline-flex items-center gap-1"><IoMdInformationCircleOutline />{errors.firstName.message}</p>}
                         {errors.lastName && <p className="text-red-500 text-[13px] font-inter-regular inline-flex items-center gap-1"><IoMdInformationCircleOutline />{errors.lastName.message}</p>}
                         {errors.email && <p className="text-red-500 text-[13px] font-inter-regular inline-flex items-center gap-1"><IoMdInformationCircleOutline /> {errors.email.message}</p>}
