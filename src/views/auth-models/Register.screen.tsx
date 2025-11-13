@@ -55,7 +55,10 @@ const RegisterScreen = ({ changeView }: { changeView: (view: 'login' | 'register
                     setIsError(true);
                     return;
                 }
-            }).catch(error => console.error(error));
+            }).catch(() => {
+                setIsError(true);
+                setServerResponse("An error occurred while processing your request. Please try again later.");
+            });
     };
 
     const handleFormSubmit = (e: React.FormEvent) => {
