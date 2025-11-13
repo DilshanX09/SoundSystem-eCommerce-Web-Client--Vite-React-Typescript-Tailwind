@@ -1,15 +1,23 @@
 import { useState } from "react";
-import AuthSideBgImage from '../../assets/images/Auth-Side-Image.png';
-import Logo from '../../assets/images/Dark-Logo.jpg';
-import { VscEye, VscEyeClosed } from "react-icons/vsc";
-import { zodResolver } from '@hookform/resolvers/zod';
-import { z } from "zod";
-import { Controller, useForm } from "react-hook-form";
-import { IoMdInformationCircleOutline } from "react-icons/io";
-import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
+
+import { z } from "zod";
+import { zodResolver } from '@hookform/resolvers/zod';
+import { Controller, useForm } from "react-hook-form";
+
+import { VscEye, VscEyeClosed } from "react-icons/vsc";
+import { IoMdInformationCircleOutline } from "react-icons/io";
+
+import { userRegisterSchema } from "../../validation/schema";
+
+import axios from "axios";
+import Logo from '../../assets/images/Dark-Logo.jpg';
+import AuthSideBgImage from '../../assets/images/Auth-Side-Image.png';
+
 const RegisterScreen = ({ changeView }: { changeView: (view: 'login' | 'register') => void }) => {
+
+    const navigator = useNavigate();
 
     const [firstName, setFirstName] = useState("");
     const [lastName, setLastName] = useState("");
@@ -19,59 +27,23 @@ const RegisterScreen = ({ changeView }: { changeView: (view: 'login' | 'register
     const [togglePasswordVisible, setTogglePasswordVisible] = useState<boolean>(false);
     const [serverResponse, setServerResponse] = useState<string>("");
     const [isError, setIsError] = useState<boolean>(false);
-    const navigator = useNavigate();
-
-    // Define validate schema 
-    const schema = z.object({
-        firstName: z
-            .string()
-            .min(2, 'First name must be at least 2 characters long')
-            .max(50, 'First name must be at most 50 characters long')
-            .regex(/^[A-Za-z]+$/, 'First name must contain only letters'),
-        lastName: z
-            .string()
-            .min(2, 'Last name must be at least 2 characters long')
-            .max(50, 'Last name must be at most 50 characters long')
-            .regex(/^[A-Za-z]+$/, 'Last name must contain only letters'),
-        email: z
-            .string()
-            .min(1, 'Email is required')
-            .email('Invalid email address'),
-        password: z
-            .string()
-            .min(8, 'Password must be at least 8 characters long')
-            .max(16, 'Password must be at most 16 characters long')
-            .regex(/[A-Z]/, 'Password must contain at least one uppercase letter')
-            .regex(/[a-z]/, 'Password must contain at least one lowercase letter')
-            .regex(/[0-9]/, 'Password must contain at least one number')
-            .regex(/[^A-Za-z0-9]/, 'Password must contain at least one special character'),
-        confirmPassword: z.string(),
-        agreeToTerms: z.boolean().refine((val) => val === true, {
-            message: 'You must accept the terms and conditions',
-        }),
-    }).refine((data) => data.password === data.confirmPassword, {
-        message: 'Passwords do not match',
-        path: ['confirmPassword'],
-    });
 
     const { register, handleSubmit, control, formState: { errors } } = useForm({
-        resolver: zodResolver(schema),
+        resolver: zodResolver(userRegisterSchema),
         mode: 'onTouched',
         defaultValues: {
             agreeToTerms: false
         }
     });
 
-    const handleRegister = async (data: z.infer<typeof schema>) => {
+    const handleRegister = async (data: z.infer<typeof userRegisterSchema>) => {
 
-        const userInformationObject = {
+        await axios.post('http://localhost:5000/sound-crafters/api/v1/users/register', {
             firstName: data.firstName,
             lastName: data.lastName,
             email: data.email,
             password: data.password
-        }
-
-        await axios.post('http://localhost:5000/sound-crafters/api/v1/users/register', userInformationObject)
+        })
             .then(response => {
                 if (response.data.status) {
                     setServerResponse(response.data.message);
@@ -83,17 +55,12 @@ const RegisterScreen = ({ changeView }: { changeView: (view: 'login' | 'register
                     setIsError(true);
                     return;
                 }
-            })
-            .catch(error => console.error(error));
+            }).catch(error => console.error(error));
     };
 
     const handleFormSubmit = (e: React.FormEvent) => {
         e.preventDefault();
-        handleSubmit(
-            (data) => {
-                handleRegister(data);
-            }
-        )(e);
+        handleSubmit((data) => { handleRegister(data); })(e);
     };
 
     return (

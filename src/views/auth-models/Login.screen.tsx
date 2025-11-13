@@ -1,18 +1,41 @@
 import { useState } from "react";
+
+import { z } from "zod";
+import { VscEye, VscEyeClosed } from "react-icons/vsc";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { userLoginSchema } from "../../validation/schema";
+import { IoMdInformationCircleOutline } from "react-icons/io";
+
 import AuthSideBgImage from '../../assets/images/Auth-Side-Image.png';
 import Logo from '../../assets/images/Dark-Logo.jpg';
-import { VscEye, VscEyeClosed } from "react-icons/vsc";
+
 
 const LoginScreen = ({ changeView }: { changeView(view: 'login' | 'register'): void }) => {
+
+     //  const navigator = useNavigate();
 
      const [email, setEmail] = useState<string>("");
      const [password, setPassword] = useState<string>("");
      const [staySignedIn, setStaySignedIn] = useState<boolean>(false);
      const [togglePasswordVisible, setTogglePasswordVisible] = useState<boolean>(false);
 
-     const handleLogin = (): void => {
-          alert(`Login with:\nEmail: ${email}\nPassword: ${password}\nStay signed in: ${staySignedIn}`);
+     const handleLogin = (data: z.infer<typeof userLoginSchema>): void => {
+          console.log({
+               email: data.email,
+               password: data.password,
+               staySignedIn: staySignedIn
+          })
      };
+
+     const { register, handleSubmit, formState: { errors } } = useForm({
+          resolver: zodResolver(userLoginSchema)
+     })
+
+     const handleFormSubmit = (e: React.FormEvent) => {
+          e.preventDefault();
+          handleSubmit((data) => { handleLogin(data); })(e);
+     }
 
      return (
           <div className="flex flex-col items-center justify-center md:flex-row h-screen bg-white">
@@ -31,7 +54,7 @@ const LoginScreen = ({ changeView }: { changeView(view: 'login' | 'register'): v
                </div>
 
                <div className="w-full md:w-[70%] h-full flex items-center justify-center p-6 md:p-12">
-                    <div className="w-full max-w-md">
+                    <div className="w-full max-w-md" onSubmit={handleFormSubmit}>
 
                          <div className="mb-4">
                               <img src={Logo} className="h-16 rounded-md" />
@@ -41,27 +64,34 @@ const LoginScreen = ({ changeView }: { changeView(view: 'login' | 'register'): v
                               Welcome Back to Sound Crafters
                          </h2>
 
-                         <p className="text-gray-500 mb-8 font-inter-regular text-base md:text-md">
+                         <p className="text-gray-500 mb-3 font-inter-regular text-base md:text-md">
                               Continue your audio journey. Track orders, manage wishlists, and unlock member-exclusive pricing.
                          </p>
 
-                         <div className="space-y-3 mb-6">
+                         <div className="flex flex-col">
+                              {errors.email && <p className="text-red-500 text-[13px] font-inter-regular inline-flex items-center gap-1 mb-1"><IoMdInformationCircleOutline /> {errors.email.message}</p>}
+                              {errors.password && <p className="text-red-500 text-[13px] font-inter-regular inline-flex items-center gap-1 mb-1"><IoMdInformationCircleOutline /> {errors.password.message}</p>}
+                         </div>
+
+                         <div className="space-y-3 mb-6 mt-2">
 
                               <input
+                                   {...register('email')}
                                    type="email"
                                    value={email}
                                    onChange={(e) => setEmail(e.target.value)}
                                    placeholder="Email address"
-                                   className="w-full py-3  border-b border-[#e4e4e4] placeholder:text-gray-500 outline-none font-inter-regular"
+                                   className={`w-full py-3 ${errors.email ? 'border-red-500 placeholder:text-red-500' : 'border-[#e4e4e4] placeholder:text-gray-500'} border-b   outline-none font-inter-regular`}
                               />
 
                               <div className="relative">
                                    <input
+                                        {...register('password')}
                                         type={togglePasswordVisible ? "text" : "password"}
                                         value={password}
                                         onChange={(e) => setPassword(e.target.value)}
                                         placeholder="Password"
-                                        className="w-full py-3 border-b border-[#e4e4e4] outline-none placeholder:text-gray-500 font-inter-regular"
+                                        className={`w-full py-3 ${errors.password ? 'border-red-500 placeholder:text-red-500' : 'border-[#e4e4e4] placeholder:text-gray-500'} border-b   outline-none font-inter-regular`}
                                    />
                                    {togglePasswordVisible ? (
                                         <VscEye className="absolute right-2 top-4 text-xl cursor-pointer" onClick={() => setTogglePasswordVisible(!togglePasswordVisible)} />
@@ -92,7 +122,7 @@ const LoginScreen = ({ changeView }: { changeView(view: 'login' | 'register'): v
                          </div>
 
                          <button
-                              onClick={handleLogin}
+                              onClick={handleFormSubmit}
                               className="w-full bg-[#181818] text-[15px] text-white font-inter-medium text-lg py-4 rounded-[7px] hover:bg-[#2a2a2a] transition-colors mb-6"
                          >
                               LOG IN
