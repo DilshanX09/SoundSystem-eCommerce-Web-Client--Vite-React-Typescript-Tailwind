@@ -9,23 +9,49 @@ import { IoMdInformationCircleOutline } from "react-icons/io";
 
 import AuthSideBgImage from '../../assets/images/Auth-Side-Image.png';
 import Logo from '../../assets/images/Dark-Logo.jpg';
-
+import apiService from "../../services/apiService";
+import { useNavigate } from "react-router-dom";
+import { useUser } from "../../context/UserContext";
 
 const LoginScreen = ({ changeView }: { changeView(view: 'login' | 'register'): void }) => {
 
-     //  const navigator = useNavigate();
+     const navigator = useNavigate();
 
      const [email, setEmail] = useState<string>("");
      const [password, setPassword] = useState<string>("");
      const [staySignedIn, setStaySignedIn] = useState<boolean>(false);
      const [togglePasswordVisible, setTogglePasswordVisible] = useState<boolean>(false);
+     const [serverResponse, setServerResponse] = useState<string>("");
+     const [isError, setIsError] = useState<boolean>(false);
 
-     const handleLogin = (data: z.infer<typeof userLoginSchema>): void => {
-          console.log({
+     const { setUser } = useUser();
+
+     const handleLogin = async (data: z.infer<typeof userLoginSchema>): Promise<void> => {
+
+          await apiService.post('/users/login', {
                email: data.email,
                password: data.password,
                staySignedIn: staySignedIn
           })
+               .then(response => {
+                    if (response.data.status) {
+                         setServerResponse(response.data.message);
+                         setUser(JSON.parse(response.data.user));
+                         setIsError(false);
+                    } else {
+                         setServerResponse(response.data.message);
+                         setIsError(true);
+                         if (!response.data.isVerified) {
+                              navigator('/users/account-verification', { state: { email: data.email } });
+                              return;
+                         }
+                         return;
+                    }
+               })
+               .catch(() => {
+                    setIsError(true);
+                    setServerResponse("An error occurred while processing your request. Please try again later.");
+               });
      };
 
      const { register, handleSubmit, formState: { errors } } = useForm({
@@ -69,6 +95,7 @@ const LoginScreen = ({ changeView }: { changeView(view: 'login' | 'register'): v
                          </p>
 
                          <div className="flex flex-col">
+                              {serverResponse && <p className={`text-[14px] font-inter-regular mb-3 ${isError ? 'text-red-500' : 'text-green-500'}`}>{serverResponse}</p>}
                               {errors.email && <p className="text-red-500 text-[13px] font-inter-regular inline-flex items-center gap-1 mb-1"><IoMdInformationCircleOutline /> {errors.email.message}</p>}
                               {errors.password && <p className="text-red-500 text-[13px] font-inter-regular inline-flex items-center gap-1 mb-1"><IoMdInformationCircleOutline /> {errors.password.message}</p>}
                          </div>

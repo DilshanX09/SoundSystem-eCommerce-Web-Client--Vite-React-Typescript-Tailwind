@@ -11,9 +11,9 @@ import { IoMdInformationCircleOutline } from "react-icons/io";
 
 import { userRegisterSchema } from "../../validation/schema";
 
-import axios from "axios";
 import Logo from '../../assets/images/Dark-Logo.jpg';
 import AuthSideBgImage from '../../assets/images/Auth-Side-Image.png';
+import apiService from "../../services/apiService";
 
 const RegisterScreen = ({ changeView }: { changeView: (view: 'login' | 'register') => void }) => {
 
@@ -38,7 +38,7 @@ const RegisterScreen = ({ changeView }: { changeView: (view: 'login' | 'register
 
     const handleRegister = async (data: z.infer<typeof userRegisterSchema>) => {
 
-        await axios.post('http://localhost:5000/sound-crafters/api/v1/users/register', {
+        await apiService.post('/users/register', {
             firstName: data.firstName,
             lastName: data.lastName,
             email: data.email,
