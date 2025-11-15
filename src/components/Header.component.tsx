@@ -8,6 +8,8 @@ import CartModel from '../models/Cart.model';
 import DropdownComponent from './html-tag-component/Dropdown.component';
 import type { Product } from '../types/Product.type';
 import HeaderNavigationLinksComponent from './HeaderNavigationLinks.component';
+import UserInformationDropdownComponent from './html-tag-component/UserInformationDropdown.component';
+import { useUser } from '../context/UserContext';
 import { useNavigate } from 'react-router-dom';
 
 const sampleProducts: Product[] = [
@@ -25,12 +27,13 @@ const sampleProducts: Product[] = [
 
 const HeaderComponent = () => {
 
+     const { user } = useUser();
      const [isOpen, setIsOpen] = useState<boolean>(false);
      const [query, setQuery] = useState<string>('')
      const panelRef = React.useRef<HTMLDivElement>(null);
      const [cartIsOpen, setCartIsOpen] = useState<boolean>(false);
 
-     const navigator = useNavigate();
+     const navigate = useNavigate();
 
      useEffect(() => {
           const onKey = (e: KeyboardEvent) => {
@@ -92,7 +95,6 @@ const HeaderComponent = () => {
                     </div>
                </div>
 
-               {/* sm: screen sizes visible header  */}
                <div className='container lg:hidden py-4 px-4 mx-auto'>
                     <div className='flex justify-between items-center mb-3'>
                          <img className="h-10" src={Logo} alt="#Sound-Crafters-Logo" />
@@ -103,6 +105,7 @@ const HeaderComponent = () => {
                          ]} />
 
                     </div>
+
                     <SearchInputComponent />
                </div>
 
@@ -125,7 +128,16 @@ const HeaderComponent = () => {
 
                          <div className="items-center hidden xl:flex xl:space-x-6">
 
-                              <button onClick={() => navigator('/users/authenticate')} className='bg-[#FAFAFA] px-4 py-2 cursor-pointer rounded-md font-inter-medium text-[14px]'>LOG IN</button>
+                              {user && <UserInformationDropdownComponent />}
+
+                              {!user &&
+                                   <button
+                                        onClick={() => navigate('/users/authenticate')}
+                                        className='bg-[#FAFAFA] px-4 py-2 cursor-pointer rounded-md font-inter-medium text-[14px]'
+                                   >
+                                        LOG IN
+                                   </button>
+                              }
 
                               <div className="w-px h-8 bg-neutral-300"></div>
 
