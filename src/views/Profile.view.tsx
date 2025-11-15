@@ -59,7 +59,7 @@ const ProfileView = () => {
 
                     <div className="container mx-auto px-4 lg:px-8 py-4">
                          <div className="flex gap-6">
- 
+
                               <aside className="w-60 hidden lg:block flex-shrink-0">
                                    <div>
                                         <div className="flex items-center gap-3 pb-4 mb-4 border-b border-gray-200">
@@ -105,12 +105,23 @@ const ProfileView = () => {
                                    {renderContent()}
                               </main>
 
-                              <div className="w-60 hidden lg:block">
-                                   {/* Placeholder for additional content or ads */}
-                                   <div className="border border-[#e4e4e4] p-3 rounded-md">
-                                        <h1 className="font-inter-medium">Hello world</h1>
-                                        <p className="font-inter-regular text-[13px] text-gray-500">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Numquam architecto iusto rem veritatis nesciunt, nemo nobis fugiat aliquid ipsam facilis excepturi, placeat nostrum aperiam unde.</p>
-                                        <button className="bg-[#181818] text-white font-inter-regular w-full mt-2 py-2 rounded-md text-[13px]">EXPLORE</button>
+                              <div className="space-y-2">
+                                   <div className="w-60 hidden lg:block">
+                                        {/* Placeholder for additional content or ads */}
+                                        <div className="border border-[#e4e4e4] p-3 rounded-md">
+                                             <h1 className="font-inter-medium">Hello world</h1>
+                                             <p className="font-inter-regular text-[13px] text-gray-500">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Numquam architecto iusto rem veritatis nesciunt, nemo nobis fugiat aliquid ipsam facilis excepturi, placeat nostrum aperiam unde.</p>
+                                             <button className="bg-[#181818] text-white font-inter-regular w-full mt-2 py-2 rounded-md text-[13px]">EXPLORE</button>
+                                        </div>
+                                   </div>
+
+                                   <div className="w-60 hidden lg:block">
+                                        {/* Placeholder for additional content or ads */}
+                                        <div className="border border-[#e4e4e4] p-3 rounded-md">
+                                             <h1 className="font-inter-medium">Hello world</h1>
+                                             <p className="font-inter-regular text-[13px] text-gray-500">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Numquam architecto iusto rem veritatis nesciunt, nemo nobis fugiat aliquid ipsam facilis excepturi, placeat nostrum aperiam unde.</p>
+                                             <button className="bg-[#181818] text-white font-inter-regular w-full mt-2 py-2 rounded-md text-[13px]">EXPLORE</button>
+                                        </div>
                                    </div>
                               </div>
                          </div>

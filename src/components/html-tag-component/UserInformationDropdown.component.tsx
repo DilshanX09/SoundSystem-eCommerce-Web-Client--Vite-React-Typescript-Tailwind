@@ -4,13 +4,17 @@ import { IoSettingsOutline } from 'react-icons/io5';
 import { MdOutlinePrivacyTip } from 'react-icons/md';
 import { PiSignOut } from 'react-icons/pi';
 import { RiUser4Line } from 'react-icons/ri';
+import { useNavigate } from 'react-router-dom';
 
 const UserInformationDropdownComponent = () => {
+
+     const navigate = useNavigate();
+
      return (
           <>
                <Menu as="div" className="relative">
 
-                    <MenuButton className="flex w-full items-center cursor-pointer">
+                    <MenuButton className="flex w-full outline-none items-center cursor-pointer">
 
                          <div className='font-inter-regular p-2 flex items-center gap-2'>
 
@@ -43,7 +47,7 @@ const UserInformationDropdownComponent = () => {
                          <div className="py-3">
                               <MenuItem>
                                    <a
-                                        href="#"
+                                        onClick={() => navigate('/users/profile')}
                                         className="px-4 py-2 text-[14px] rounded-lg text-black data-focus:bg-gray-100 data-focus:text-black data-focus:outline-hidden flex items-center gap-2"
                                    >
                                         <RiUser4Line />  <p>Account</p>

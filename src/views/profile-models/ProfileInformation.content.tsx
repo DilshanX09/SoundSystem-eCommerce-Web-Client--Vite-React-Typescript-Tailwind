@@ -1,11 +1,10 @@
 export const ProfileContent = () => {
      return (
           <div className="bg-white rounded-lg border border-gray-200">
+
                <div className="px-10 py-5 border-b border-gray-200">
-                    <div>
-                         <h2 className="text-xl font-inter-medium text-gray-900">Profile Information</h2>
-                         <p className="text-gray-500 font-inter-regular">Complete details about your account and profile</p>
-                    </div>
+                    <h2 className="text-xl font-inter-medium text-gray-900">Profile Information</h2>
+                    <p className="text-gray-500 font-inter-regular">Complete details about your account and profile</p>
                </div>
 
                <div className="p-10 space-y-6 font-inter-regular">
@@ -87,9 +86,12 @@ export const ProfileContent = () => {
 
                     {/* Password Section */}
                     <div className="pt-6 border-t border-gray-200">
-                         <div className="mb-4">
-                              <h3 className="text-lg font-inter-medium text-gray-900">Password & Security</h3>
-                              <p className="text-[14px] text-gray-500 font-inter-regular mt-1">Manage your password and security settings</p>
+                         <div className="mb-4 flex justify-between items-center">
+                              <div>
+                                   <h3 className="text-lg font-inter-medium text-gray-900">Password & Security</h3>
+                                   <p className="text-[14px] text-gray-500 font-inter-regular">Manage your password and security settings</p>
+                              </div>
+                              <button className="px-4 py-2.5 bg-gray-800 text-white text-[14px] rounded-md hover:bg-gray-900 transition-colors">Reset Password</button>
                          </div>
 
                          <div className="bg-gray-50 p-4 font-inter-regular rounded-lg">
